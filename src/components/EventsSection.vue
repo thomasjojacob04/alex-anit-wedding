@@ -15,7 +15,7 @@
       <div class="event-card">
         <div class="event-card__icon">✝</div>
         <h3 class="event-card__title">Holy Wedding</h3>
-        <p class="event-card__time">4:00 PM</p>
+        <p class="event-card__time">3:30 PM</p>
         <p class="event-card__venue">
           St. John The Baptist Church<br />Yordhanapuram
         </p>
