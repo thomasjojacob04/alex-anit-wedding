@@ -1,0 +1,80 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:        #8b004a;  /* primary accent (was gold, now brand maroon) */
+  --gold-light:  #b45989;  /* lighter tint for dividers/borders */
+  --gold-deep:   #680038;  /* deeper shade for hover/emphasis */
+  --blush:       #dbbac4;  /* soft pale accent */
+  --blush-deep:  #c483a0;  /* stronger soft accent */
+  --cream:       #f2efe7;  /* primary background */
+  --paper:       #eee5e1;  /* slightly deeper panel background */
+  --text-body:   #3c2430;  /* warm near-black for body text */
+  --text-muted:  #8a6275;  /* muted mauve-gray for secondary text */
+  --overlay:     rgba(40, 5, 20, 0.45);
+  --deep-1:      #440326;  /* dark section gradient start */
+  --deep-2:      #260417;  /* dark section gradient end */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: #0c0805;
+  color: var(--text-body);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 3px; }
+
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+  width: fit-content;
+}
+.divider span {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: var(--gold-light);
+  opacity: 0.7;
+}
+.divider-diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--gold-light);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.btn-gold {
+  display: inline-block;
+  padding: 0.75rem 2.5rem;
+  border: 1px solid var(--gold);
+  color: var(--gold-deep);
+  background: transparent;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.btn-gold:hover {
+  background: var(--gold);
+  color: #fff;
+}
