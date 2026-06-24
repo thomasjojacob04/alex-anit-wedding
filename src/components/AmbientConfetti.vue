@@ -6,33 +6,35 @@
       class="ambient-confetti__piece"
       :style="{
         left: p.left + '%',
-        backgroundColor: p.color,
         animationDelay: p.delay + 's',
         animationDuration: p.duration + 's',
         width: p.size + 'px',
-        height: p.size * (p.round ? 1 : 0.4) + 'px',
-        borderRadius: p.round ? '50%' : '2px',
+        '--sway': p.sway + 'px',
+        '--rot': p.initialRotate + 'deg',
       }"
-    ></span>
+    >
+      <img
+        :src="p.petal === 0 ? '/petal-pink.png' : '/petal-white.png'"
+        alt=""
+        class="ambient-confetti__img"
+      />
+    </span>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const colors = ['#8b004a', '#dbbac4', '#c483a0', '#b45989', '#f2efe7']
-
-// A fixed pool of pieces, each with its own randomized, staggered, looping
-// fall animation — reads as a gentle continuous drift rather than a single burst.
 const pieces = ref(
   Array.from({ length: 28 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
-    color: colors[i % colors.length],
-    delay: Math.random() * 12,
-    duration: 9 + Math.random() * 6,
-    size: 5 + Math.random() * 6,
-    round: Math.random() > 0.5,
+    petal: Math.random() > 0.5 ? 0 : 1,
+    delay: -(Math.random() * 18),         // negative delay = already mid-fall on load, no hang
+    duration: 18 + Math.random() * 10,    // 18–28s, slow drift
+    size: 9 + Math.random() * 10,         // 9–19px, smaller than before
+    initialRotate: Math.random() * 360,
+    sway: (Math.random() - 0.5) * 50,
   }))
 )
 </script>
@@ -48,17 +50,40 @@ const pieces = ref(
 
 .ambient-confetti__piece {
   position: absolute;
-  top: -8%;
+  top: -5%;
   opacity: 0;
   animation-name: ambient-fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.ambient-confetti__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  transform: rotate(var(--rot));
 }
 
 @keyframes ambient-fall {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-  6%   { opacity: 0.85; }
-  90%  { opacity: 0.85; }
-  100% { transform: translateY(112vh) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.78;
+  }
+  50% {
+    transform: translateY(56vh) translateX(var(--sway)) rotate(180deg);
+    opacity: 0.78;
+  }
+  92% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(112vh) translateX(calc(var(--sway) * 2)) rotate(360deg);
+    opacity: 0;
+  }
 }
 </style>
