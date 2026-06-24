@@ -61,7 +61,7 @@ import ScratchHeart from './ScratchHeart.vue'
 import PopperBurst from './PopperBurst.vue'
 
 // Wedding: 12 July 2026, ceremony at 4 PM IST
-const TARGET = new Date('2026-07-12T16:00:00+05:30').getTime()
+const TARGET = new Date('2026-07-12T15:30:00+05:30').getTime()
 
 const revealedMap = reactive({ day: false, month: false, year: false })
 const allRevealed = computed(() => revealedMap.day && revealedMap.month && revealedMap.year)
