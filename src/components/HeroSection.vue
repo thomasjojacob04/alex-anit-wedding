@@ -1,6 +1,14 @@
 <template>
   <section class="hero">
-    <img src="/hero-bg.png" alt="Alex & Anit - We Are Getting Married" class="hero__bg-img" />
+    <!-- Base background — always visible, no flash -->
+    <img src="/hero-bg.png" alt="" class="hero__bg-img hero__bg-img--base" />
+    <!-- Overlay background — fades in on top -->
+    <img
+      src="/hero-bg1.png"
+      alt="Alex & Anit - We Are Getting Married"
+      class="hero__bg-img hero__bg-img--overlay"
+      :class="{ 'hero__bg-img--visible': overlayReady }"
+    />
     <div class="hero__scrim"></div>
 
     <div class="hero__content">
@@ -23,6 +31,23 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
+const overlayReady = ref(false)
+
+onMounted(() => {
+  const img = new Image()
+  img.src = '/hero-bg1.png'
+  img.onload = () => {
+    // Small delay so the base bg is definitely painted first
+    requestAnimationFrame(() => {
+      overlayReady.value = true
+    })
+  }
+  // If the image fails to load, stay on base bg silently
+  img.onerror = () => {}
+})
+
 function scrollDown() {
   window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
 }
@@ -38,25 +63,42 @@ function scrollDown() {
   overflow: hidden;
 }
 
+/* Both bg images share base positioning */
 .hero__bg-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Base image sits at z-index 0 — always visible, prevents black gap */
+.hero__bg-img--base {
   z-index: 0;
+}
+
+/* Overlay image sits on top but starts fully transparent */
+.hero__bg-img--overlay {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+}
+
+/* Triggered once hero-bg1 is loaded */
+.hero__bg-img--overlay.hero__bg-img--visible {
+  opacity: 1;
 }
 
 .hero__scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(20,4,12,0.45) 100%);
-  z-index: 1;
+  z-index: 2;
 }
 
 .hero__content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   padding-bottom: 1.2rem;
   text-align: center;
